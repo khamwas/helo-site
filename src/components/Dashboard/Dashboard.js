@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Nav from '../Nav/Nav';
-
-// import axios from 'axios';
+import axios from 'axios';
 
 class Dashboard extends Component {
 	constructor(props) {
@@ -10,20 +10,93 @@ class Dashboard extends Component {
 		this.state = {
 			posts: [],
 			search: '',
-			userposts: true
+			userposts: true,
+			checkbox: true
 		};
 	}
-	getPosts() {}
+	componentDidMount() {
+		this.getPosts();
+	}
+	handleChange(e) {
+		this.setState({ search: e.target.value });
+	}
+
+	getPosts() {
+		axios
+			.get('api/posts')
+			.then((result) => this.setState({ posts: result.data }));
+	}
 
 	resetSearch() {
 		this.setState({ search: '' });
 	}
+	check() {
+		this.setState({ checkbox: !this.state.checkbox });
+	}
 
 	render() {
+		let checked = this.state.posts
+			.filter((elem) => elem.author_id != this.props.id)
+			.filter((elem) =>
+				elem.title.toUpperCase().includes(this.state.search.toUpperCase())
+			)
+			.map((elem) => (
+				<Link to={`/posts/${elem.post_id}`}>
+					<div className="posts">
+						<h2>{elem.title}</h2>
+						<div className="poster">
+							<p>by {elem.username}</p>
+							<img
+								className="navImg profileImg"
+								src={elem.profile_pic}
+								alt={elem.username}
+							/>
+						</div>
+					</div>
+				</Link>
+			));
+
+		let posts = this.state.posts
+			.filter((elem) =>
+				elem.title.toUpperCase().includes(this.state.search.toUpperCase())
+			)
+			.map((elem) => (
+				<Link to={`/posts/${elem.post_id}`}>
+					<div className="posts">
+						<h2>{elem.title}</h2>
+						<div className="poster">
+							<p>by {elem.username}</p>
+							<img
+								className="navImg profileImg"
+								src={elem.profile_pic}
+								alt={elem.username}
+							/>
+						</div>
+					</div>
+				</Link>
+			));
 		return (
-			<div>
+			<div className="outer">
 				<Nav />
-				<div>Dashboard</div>
+
+				<div className="dashboard">
+					<div className="searchBar">
+						<input
+							value={this.state.search}
+							onChange={(e) => this.handleChange(e)}
+						/>
+						<button onClick={() => this.resetSearch()}>Reset</button>
+						My Posts{' '}
+						<input
+							type="checkbox"
+							defaultChecked
+							onClick={() => this.check()}
+						/>
+					</div>
+					<div className="postsBackground">
+						{this.state.checkbox ? posts : checked}
+					</div>
+				</div>
 			</div>
 		);
 	}

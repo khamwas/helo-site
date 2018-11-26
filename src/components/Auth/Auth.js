@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { updateUser, clearUser } from '../../redux/reducer';
 import axios from 'axios';
 
@@ -19,7 +20,6 @@ class Auth extends Component {
 	login() {
 		axios.post('/api/auth/login', this.state).then((result) => {
 			this.props.updateUser(result.data);
-			this.props.history.push('/dashboard');
 		});
 	}
 
@@ -68,6 +68,7 @@ class Auth extends Component {
 				<div className="greaterAuthInput">
 					Password:{' '}
 					<input
+						type="password"
 						value={this.state.password}
 						onChange={(e) => this.handleChange(e, 'password')}
 					/>
@@ -80,6 +81,7 @@ class Auth extends Component {
 						Register
 					</button>
 				</div>
+				{this.props.username !== '' && <Redirect to="/dashboard" />}
 			</div>
 		);
 	}

@@ -48,6 +48,15 @@ app.get('/api/posts/:userid', (req, res, next) => {
 		.then((result) => res.status(200).json(result))
 		.catch((err) => res.status(500).send(err));
 });
+app.get('/api/posts', (req, res, next) => {
+	req.app
+		.get('db')
+		.query(
+			'select helo_posts.id as post_id, title,img,content,author_id, username, password,profile_pic from helo_posts join helo_users on helo_users.id=helo_posts.author_id'
+		)
+		.then((result) => res.status(200).json(result))
+		.catch((err) => res.status(500).send(err));
+});
 app.post('/api/post/:userid', (req, res, next) => {
 	req.app
 		.get('db')
@@ -58,7 +67,11 @@ app.post('/api/post/:userid', (req, res, next) => {
 app.get('/api/post/:postid', (req, res, next) => {
 	req.app
 		.get('db')
-		.helo_posts.findOne({ id: parseInt(req.params.postid) })
+		.query(
+			`select helo_posts.id as post_id, title,img,content,author_id, username, password,profile_pic from helo_posts join helo_users on helo_users.id=helo_posts.author_id where helo_posts.id=${parseInt(
+				req.params.postid
+			)}`
+		)
 		.then((result) => res.status(200).json(result))
 		.catch((err) => res.status(500).send(err));
 });

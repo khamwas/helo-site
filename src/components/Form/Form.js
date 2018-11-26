@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Nav from '../Nav/Nav';
-// import axios from 'axios';
+import axios from 'axios';
 
 class Form extends Component {
 	constructor(props) {
@@ -15,13 +15,36 @@ class Form extends Component {
 	handleChange(e, name) {
 		this.setState({ [name]: e.target.value });
 	}
-	submitPost() {}
+	submitPost() {
+		axios.post(`api/post/${this.props.id}`, this.state);
+	}
 
 	render() {
 		return (
-			<div>
+			<div className="outer">
 				<Nav />
-				<div>Form</div>;
+				<div className="form">
+					Title{' '}
+					<input
+						value={this.state.title}
+						onChange={(e) => this.handleChange(e, 'title')}
+					/>
+					{this.state.img === '' ? (
+						<img className="phImg" src="" alt="image" />
+					) : (
+						<img src={this.state.img} alt="image" />
+					)}
+					Img Url{' '}
+					<input
+						value={this.state.img}
+						onChange={(e) => this.handleChange(e, 'img')}
+					/>
+					Content{' '}
+					<textarea
+						value={this.state.content}
+						onChange={(e) => this.handleChange(e, 'content')}
+					/>
+				</div>
 			</div>
 		);
 	}

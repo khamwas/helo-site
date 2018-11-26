@@ -6,10 +6,14 @@ import { updateUser, clearUser } from '../../redux/reducer';
 function Nav(props) {
 	return (
 		<div className="navBar">
-			<div className="imgCircle">
-				<img className="navImg" alt="profile" src={props.profile_pic} />
+			<div>
+				<img
+					className="navImg profileImg"
+					alt="profile"
+					src={props.profile_pic}
+				/>
+				<p>{props.username}</p>
 			</div>
-			<p>{props.username}</p>
 			<Link to="/dashboard">
 				<img
 					className="navImg"
@@ -17,7 +21,6 @@ function Nav(props) {
 					src="https://s3.us-east-2.amazonaws.com/boardashell/dashboard.png"
 				/>
 			</Link>
-			<Link to="/posts">Posts</Link>
 			<Link to="/form">
 				<img
 					className="navImg"
