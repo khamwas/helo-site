@@ -31,7 +31,7 @@ app.get('/api/session', (req, res, next) => {
 });
 
 app.post('/api/auth/register', (req, res, next) => {
-	console.log(req.body);
+	req.session.user = req.body;
 	req.app
 		.get('db')
 		.helo_users.insert(req.body)
@@ -42,7 +42,10 @@ app.post('/api/auth/login', (req, res, next) => {
 	req.app
 		.get('db')
 		.helo_users.findOne(req.body)
-		.then((result) => res.status(200).json(result))
+		.then((result) => {
+			req.session.user = result;
+			res.status(200).json(result);
+		})
 		.catch((err) => res.status(500).send(err));
 });
 app.get('/api/posts/:userid', (req, res, next) => {

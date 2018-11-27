@@ -13,6 +13,14 @@ class Auth extends Component {
 		};
 	}
 
+	componentDidMount() {
+		axios.get('/api/session').then((result) => {
+			if (result.data.user) {
+				this.props.updateUser(result.data.user);
+			}
+		});
+	}
+
 	handleChange(e, name) {
 		this.setState({ [name]: e.target.value });
 	}
