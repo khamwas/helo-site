@@ -16,7 +16,10 @@ class Form extends Component {
 		this.setState({ [name]: e.target.value });
 	}
 	submitPost() {
-		axios.post(`api/post/${this.props.id}`, this.state);
+		// console.log(this.props.id, this.state);
+		axios
+			.post(`api/post/${this.props.id}`, this.state)
+			.then(() => this.props.history.push('/'));
 	}
 
 	render() {
@@ -24,6 +27,7 @@ class Form extends Component {
 			<div className="outer">
 				<Nav />
 				<div className="form">
+					<h1>New Post</h1>
 					Title{' '}
 					<input
 						value={this.state.title}
@@ -44,6 +48,13 @@ class Form extends Component {
 						value={this.state.content}
 						onChange={(e) => this.handleChange(e, 'content')}
 					/>
+					<button
+						onClick={() => {
+							this.submitPost();
+						}}
+					>
+						Sbumit
+					</button>
 				</div>
 			</div>
 		);

@@ -26,6 +26,10 @@ massive(process.env.CONNECTION_STRING)
 	.then((dbInstance) => app.set('db', dbInstance))
 	.catch((err) => console.log(err));
 
+app.get('/api/session', (req, res, next) => {
+	res.status(200).json(req.session);
+});
+
 app.post('/api/auth/register', (req, res, next) => {
 	console.log(req.body);
 	req.app
@@ -60,7 +64,9 @@ app.get('/api/posts', (req, res, next) => {
 app.post('/api/post/:userid', (req, res, next) => {
 	req.app
 		.get('db')
-		.helo_posts.insert(req.body, { author_id: parseInt(req.params.userid) })
+		.helo_posts.insert(
+			Object.assign({}, req.body, { author_id: parseInt(req.params.userid) })
+		)
 		.then((result) => res.status(200).json(result))
 		.catch((err) => res.status(500).send(err));
 });
