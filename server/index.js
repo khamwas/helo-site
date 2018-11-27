@@ -69,11 +69,11 @@ app.get('/api/posts', (req, res, next) => {
 		.then((result) => res.status(200).json(result))
 		.catch((err) => res.status(500).send(err));
 });
-app.post('/api/post/:userid', (req, res, next) => {
+app.post('/api/post', (req, res, next) => {
 	req.app
 		.get('db')
 		.helo_posts.insert(
-			Object.assign({}, req.body, { author_id: parseInt(req.params.userid) })
+			Object.assign({}, req.body, { author_id: req.session.user.id })
 		)
 		.then((result) => res.status(200).json(result))
 		.catch((err) => res.status(500).send(err));

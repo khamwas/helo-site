@@ -41,11 +41,10 @@ function Nav(props) {
 }
 
 function mapStateToProps(state) {
-	const { username, profile_pic, id } = state;
+	const { username, profile_pic } = state;
 	return {
 		username,
-		profile_pic,
-		id
+		profile_pic
 	};
 }
 

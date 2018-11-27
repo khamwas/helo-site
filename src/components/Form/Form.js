@@ -18,7 +18,7 @@ class Form extends Component {
 	submitPost() {
 		// console.log(this.props.id, this.state);
 		axios
-			.post(`api/post/${this.props.id}`, this.state)
+			.post('/api/post', this.state)
 			.then(() => this.props.history.push('/'));
 	}
 
@@ -62,11 +62,10 @@ class Form extends Component {
 }
 
 function mapStateToProps(state) {
-	const { username, profile_pic, id } = state;
+	const { username, profile_pic } = state;
 	return {
 		username,
-		profile_pic,
-		id
+		profile_pic
 	};
 }
 

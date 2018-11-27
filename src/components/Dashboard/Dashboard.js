@@ -36,7 +36,7 @@ class Dashboard extends Component {
 
 	render() {
 		let checked = this.state.posts
-			.filter((elem) => elem.author_id != this.props.id)
+			.filter((elem) => elem.username != this.props.username)
 			.filter((elem) =>
 				elem.title.toUpperCase().includes(this.state.search.toUpperCase())
 			)
@@ -103,11 +103,10 @@ class Dashboard extends Component {
 }
 
 function mapStateToProps(state) {
-	const { username, profile_pic, id } = state;
+	const { username, profile_pic } = state;
 	return {
 		username,
-		profile_pic,
-		id
+		profile_pic
 	};
 }
 
