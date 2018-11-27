@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { updateUser, clearUser } from '../../redux/reducer';
+import axios from 'axios';
 
 function Nav(props) {
 	return (
@@ -32,7 +33,7 @@ function Nav(props) {
 				className="navImg"
 				alt="logout"
 				src="https://s3.us-east-2.amazonaws.com/boardashell/logout.png"
-				onClick={() => props.clearUser()}
+				onClick={() => axios.get('/api/logout').then(() => props.clearUser())}
 			/>
 			{props.username === '' && <Redirect to="/" />}
 		</div>

@@ -30,6 +30,11 @@ app.get('/api/session', (req, res, next) => {
 	res.status(200).json(req.session);
 });
 
+app.get('/api/logout', (req, res, next) => {
+	req.session.destroy();
+	res.status(200).send(req.session);
+});
+
 app.post('/api/auth/register', (req, res, next) => {
 	req.session.user = req.body;
 	req.app
