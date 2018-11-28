@@ -5,8 +5,7 @@ const CLEAR_USER = 'CLEAR_USER';
 
 const initialState = {
 	username: '',
-	profile_pic: '',
-	id: 0
+	profile_pic: ''
 };
 
 function reducer(state = initialState, action) {
